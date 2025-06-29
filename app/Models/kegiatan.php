@@ -14,11 +14,13 @@ class Kegiatan extends Model
 
     // Define your existing constants here if they are not already
     const JENIS_OPTIONS = [
-        'Tugas' => 'Tugas',
-        'Ujian' => 'Ujian',
-        'Praktikum' => 'Praktikum',
-        'Lainnya' => 'Lainnya',
-    ];
+        'proyek' => 'Proyek',
+        'kuis' => 'Kuis',
+        'presentasi' => 'Presentasi',
+        'nyatet materi' => 'Nyatet Materi',
+    'UTS' => 'UTS',
+    'UAS' => 'UAS',
+];
 
     const PRIORITAS_OPTIONS = [
         'Rendah' => 'Rendah',

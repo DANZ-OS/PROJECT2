@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateKegiatan extends CreateRecord
 {
     protected static string $resource = KegiatanResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl();
+    }
 }
