@@ -9,11 +9,32 @@ class Kegiatan extends Model
 {
     use HasFactory;
 
+    // Tambahkan baris ini untuk mendefinisikan nama tabel secara eksplisit
     protected $table = 'kegiatan';
 
+    // Define your existing constants here if they are not already
+    const JENIS_OPTIONS = [
+        'Tugas' => 'Tugas',
+        'Ujian' => 'Ujian',
+        'Praktikum' => 'Praktikum',
+        'Lainnya' => 'Lainnya',
+    ];
+
+    const PRIORITAS_OPTIONS = [
+        'Rendah' => 'Rendah',
+        'Sedang' => 'Sedang',
+        'Tinggi' => 'Tinggi',
+        'Sangat Tinggi' => 'Sangat Tinggi',
+    ];
+
+    const STATUS_OPTIONS = [
+        'Belum Dimulai' => 'Belum Dimulai',
+        'Sedang Berjalan' => 'Sedang Berjalan',
+        'Selesai' => 'Selesai',
+        'Tertunda' => 'Tertunda',
+    ];
+
     protected $fillable = [
-        'user_id',
-        'mata_kuliah_id',
         'nama',
         'deskripsi',
         'jenis',
@@ -21,72 +42,15 @@ class Kegiatan extends Model
         'prioritas',
         'estimasi_jam',
         'status',
+        'mata_kuliah_id',
+        'user_id',
     ];
 
-    protected $casts = [
-        'deadline' => 'date',
-    ];
-
-    // Enums (konstanta untuk validasi dan tampilan)
-    public const JENIS_OPTIONS = [
-        'tugas' => 'Tugas',
-        'proyek' => 'Proyek',
-        'kuis' => 'Kuis',
-        'presentasi' => 'Presentasi',
-        'nyatet materi' => 'Nyatet Materi',
-        'UTS' => 'UTS',
-        'UAS' => 'UAS',
-    ];
-
-    public const PRIORITAS_OPTIONS = [
-        'rendah' => 'Rendah',
-        'sedang' => 'Sedang',
-        'tinggi' => 'Tinggi',
-    ];
-
-    public const STATUS_OPTIONS = [
-        'Belum Dimulai' => 'Belum Dimulai',
-        'Sedang Berjalan' => 'Sedang Berjalan',
-        'Selesai' => 'Selesai',
-    ];
-
-    // Relationships
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
+    /**
+     * Get the mata kuliah that owns the Kegiatan.
+     */
     public function mataKuliah()
     {
         return $this->belongsTo(MataKuliah::class, 'mata_kuliah_id');
-    }
-
-    public function jadwals()
-    {
-        return $this->hasMany(Jadwal::class);
-    }
-
-    public function progres()
-    {
-        return $this->hasMany(Progres::class);
-    }
-
-    public function riwayatKegiatans()
-    {
-        return $this->hasMany(RiwayatKegiatan::class);
-    }
-
-    // Scopes
-    public function scopeUrgent($query)
-    {
-        return $query->where('deadline', '>=', now())
-                     ->where('deadline', '<=', now()->addDays(7))
-                     ->where('status', '!=', 'Selesai')
-                     ->orderBy('deadline');
-    }
-
-    public function scopeByUser($query, $userId)
-    {
-        return $query->where('user_id', $userId);
     }
 }
