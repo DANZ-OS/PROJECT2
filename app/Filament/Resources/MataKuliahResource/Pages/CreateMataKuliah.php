@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMataKuliah extends CreateRecord
 {
     protected static string $resource = MataKuliahResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl();
+    }
 }
