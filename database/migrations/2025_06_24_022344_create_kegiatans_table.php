@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('deskripsi')->nullable();
             $table->enum('jenis', ['tugas', 'proyek', 'kuis', 'presentasi', 'nyatet materi', 'UTS', 'UAS']);
             $table->date('deadline');
-            $table->enum('prioritas', ['rendah', 'sedang', 'tinggi']);
+            $table->enum('prioritas', ['Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi']);
             $table->integer('estimasi_jam');
             $table->enum('status', ['Belum Dimulai', 'Sedang Berjalan', 'Selesai'])->default('Belum Dimulai');
             $table->timestamps();

@@ -18,9 +18,9 @@ class Kegiatan extends Model
         'kuis' => 'Kuis',
         'presentasi' => 'Presentasi',
         'nyatet materi' => 'Nyatet Materi',
-    'UTS' => 'UTS',
-    'UAS' => 'UAS',
-];
+        'UTS' => 'UTS',
+        'UAS' => 'UAS',
+    ];
 
     const PRIORITAS_OPTIONS = [
         'Rendah' => 'Rendah',

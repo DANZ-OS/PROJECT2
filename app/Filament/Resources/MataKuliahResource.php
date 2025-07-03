@@ -28,9 +28,6 @@ class MataKuliahResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 TextInput::make('nama')
                     ->required()
                     ->maxLength(100),
@@ -44,10 +41,6 @@ class MataKuliahResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('Pemilik')
-                    ->searchable()
-                    ->sortable(),
                 TextColumn::make('nama')
                     ->searchable()
                     ->sortable(),
