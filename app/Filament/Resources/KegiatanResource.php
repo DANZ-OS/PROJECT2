@@ -30,7 +30,9 @@ class KegiatanResource extends Resource
                 ->maxLength(255),
                 
             Forms\Components\Select::make('mata_kuliah_id')
-                ->relationship('mataKuliah', 'nama')
+                ->relationship('mataKuliah', 'nama', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })
                 ->required(),
                 
             Forms\Components\Textarea::make('deskripsi')
@@ -41,7 +43,6 @@ class KegiatanResource extends Resource
                 ->options(Kegiatan::JENIS_OPTIONS)
                 ->required(),
                 
-            // SOLUSI PASTI JALAN:
             Forms\Components\DateTimePicker::make('deadline')
                 ->seconds(false)
                 ->displayFormat('d/m/Y H:i')
@@ -117,5 +118,11 @@ class KegiatanResource extends Resource
             'create' => Pages\CreateKegiatan::route('/create'),
             'edit' => Pages\EditKegiatan::route('/{record}/edit')
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where('user_id', auth()->id());
     }
 }

@@ -14,6 +14,7 @@ class MataKuliah extends Model
     protected $fillable = [
         'nama',
         'deskripsi',
+        'user_id'
     ];
 
     // Relationships

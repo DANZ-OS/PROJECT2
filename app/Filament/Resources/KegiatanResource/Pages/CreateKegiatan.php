@@ -11,7 +11,6 @@ class CreateKegiatan extends CreateRecord
 {
     protected static string $resource = KegiatanResource::class;
 
-    // ✅ Tambahkan user_id sebelum disimpan
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = Auth::id();

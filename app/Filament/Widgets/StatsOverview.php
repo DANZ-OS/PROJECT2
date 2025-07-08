@@ -10,7 +10,8 @@ class StatsOverview extends BaseWidget
 {
     protected function getStats(): array
     {
-        $kegiatan = kegiatan::all();
+        $userId = auth()->id();
+        $kegiatan = kegiatan::where('user_id', $userId)->get();
 
         return [
             Stat::make('Total Kegiatan', $kegiatan->count())

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('mata_kuliah', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nama', 100)->nullable(false);
             $table->text('deskripsi')->nullable();
             $table->timestamps();

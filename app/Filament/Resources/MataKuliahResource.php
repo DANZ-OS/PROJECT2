@@ -85,4 +85,10 @@ class MataKuliahResource extends Resource
             'edit' => Pages\EditMataKuliah::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->where('user_id', auth()->id());
+    }
 }

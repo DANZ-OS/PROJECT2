@@ -14,23 +14,28 @@ class WidgetKegiatan extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Trend::model(kegiatan::class)
-        ->between(
-            start: now()->startOfYear(),
-            end: now()->endOfYear(),
-        )
-        ->perMonth()
-        ->count();
+        $userId = auth()->user()->id;
 
-    return [
-        'datasets' => [
-            [
-                'label' => 'Kegiatan per Bulan',
-                'data' => $data->map(fn (TrendValue $value) => $value->aggregate),
+        $data = Trend::query(
+            kegiatan::query()->where('user_id', $userId)
+        )
+            ->between(
+                start: now()->startOfYear(),
+                end: now()->endOfYear(),
+            )
+            ->perMonth()
+            ->count();
+
+
+        return [
+            'datasets' => [
+                [
+                    'label' => 'Kegiatan per Bulan',
+                    'data' => $data->map(fn(TrendValue $value) => $value->aggregate),
+                ],
             ],
-        ],
-        'labels' => $data->map(fn (TrendValue $value) => $value->date),
-    ];
+            'labels' => $data->map(fn(TrendValue $value) => $value->date),
+        ];
     }
 
     protected function getType(): string
