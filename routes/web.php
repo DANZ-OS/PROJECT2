@@ -14,4 +14,11 @@ Route::middleware(['auth'])->group(function () {
          Route::post('/kegiatan', [KegiatanResource::class, 'store'])->name('kegiatan.store');
      });
 
-Route::get('/kegiatan', [KegiatanController::class, 'index']);
+// Rute untuk menampilkan daftar kegiatan (sudah ada)
+Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
+
+// Rute untuk MENYIMPAN data dari form (WAJIB ADA)
+Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
+
+// Jangan lupa juga untuk memproteksi rute ini dengan middleware auth
+// Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store')->middleware('auth');

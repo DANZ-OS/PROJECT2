@@ -9,7 +9,6 @@ use Database\Seeders\UserSeeder;
 use Database\Seeders\MataKuliahSeeder;
 use Database\Seeders\ProfilPenggunaSeeder;
 use Database\Seeders\KegiatanSeeder;
-use Database\Seeders\JadwalSeeder;
 use Database\Seeders\ProgresSeeder;
 use Database\Seeders\RiwayatKegiatanSeeder;
 
@@ -25,7 +24,6 @@ class DatabaseSeeder extends Seeder
             MataKuliahSeeder::class,
             ProfilPenggunaSeeder::class,
             KegiatanSeeder::class,
-            JadwalSeeder::class,
             ProgresSeeder::class,
             RiwayatKegiatanSeeder::class,
         ]);

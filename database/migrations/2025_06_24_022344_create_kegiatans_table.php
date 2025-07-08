@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('deadline');
             $table->enum('prioritas', ['Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi']);
             $table->integer('estimasi_jam');
-            $table->enum('status', ['Belum Dimulai', 'Sedang Berjalan', 'Selesai'])->default('Belum Dimulai');
+            $table->enum('status', ['Belum Dimulai', 'Sedang Berjalan', 'Selesai', 'Tertunda'])->default('Belum Dimulai');
             $table->timestamps();
             // Constraint CHECK (estimasi_jam > 0) bisa ditambahkan manual jika perlu di DB.
             // $table->fullText(['nama', 'deskripsi']); // Contoh untuk pencarian teks penuh
