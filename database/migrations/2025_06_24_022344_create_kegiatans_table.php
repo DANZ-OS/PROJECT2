@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nama', 100)->nullable(false);
             $table->text('deskripsi')->nullable();
             $table->enum('jenis', ['tugas', 'proyek', 'kuis', 'presentasi', 'nyatet materi', 'UTS', 'UAS']);
-            $table->date('deadline');
+            $table->datetime('deadline');
             $table->enum('prioritas', ['Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi']);
             $table->integer('estimasi_jam');
             $table->enum('status', ['Belum Dimulai', 'Sedang Berjalan', 'Selesai', 'Tertunda'])->default('Belum Dimulai');
