@@ -40,8 +40,25 @@ class User extends Authenticatable
         return $this->hasMany(Kegiatan::class);
     }
 
-    public function profilPengguna()
+    // --- HAPUS RELASI profilPenggunas() INI KARENA TABELNYA TIDAK ADA ---
+    // public function profilPenggunas()
+    // {
+    //     return $this->hasOne(ProfilPengguna::class);
+    // }
+
+    protected static function boot()
     {
-        return $this->hasOne(ProfilPengguna::class);
+        parent::boot();
+        
+        static::deleting(function ($user) {
+            // Hapus semua MataKuliah milik user
+            $user->mataKuliahs()->delete();
+
+            // Hapus semua Kegiatan milik user
+            $user->kegiatans()->delete();
+
+            // --- HAPUS PANGGILAN INI KARENA RELASI DAN TABELNYA TIDAK ADA ---
+            // $user->profilPenggunas()->delete();
+        });
     }
 }

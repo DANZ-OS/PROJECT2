@@ -6,6 +6,7 @@ use Filament\Pages\Page;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Filament\Notifications\Notification;
 use Filament\Actions\Action;
 use Filament\Support\Enums\ActionSize;
@@ -99,7 +100,6 @@ class ProfilSaya extends Page implements Forms\Contracts\HasForms
                 ->visible($this->isEditing)
                 ->action(function () {
                     $this->isEditing = false;
-                    // Reset form ke data asli
                     $this->form->fill($this->data);
                 }),
 
@@ -111,6 +111,21 @@ class ProfilSaya extends Page implements Forms\Contracts\HasForms
                 ->visible($this->isEditing)
                 ->action(function () {
                     $this->updateProfil();
+                }),
+
+            Action::make('delete_account')
+                ->label('Hapus Akun')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->size(ActionSize::Large)
+                ->visible(! $this->isEditing)
+                ->requiresConfirmation()
+                ->modalHeading('Hapus Akun Permanen')
+                ->modalDescription('⚠ PERINGATAN: Tindakan ini akan menghapus akun Anda secara permanen beserta SEMUA data terkait. Tindakan ini TIDAK DAPAT DIBATALKAN!')
+                ->modalSubmitActionLabel('Ya, Hapus Permanen')
+                ->modalCancelActionLabel('Batal')
+                ->action(function () {
+                    $this->deleteAccountCascade();
                 }),
         ];
     }
@@ -151,6 +166,43 @@ class ProfilSaya extends Page implements Forms\Contracts\HasForms
             ->title('Profil berhasil diperbarui.')
             ->success()
             ->send();
+    }
+
+    public function deleteAccountCascade()
+    {
+        $user = Auth::user();
+        
+        try {
+            DB::transaction(function () use ($user) {
+                // Hapus semua data terkait user secara manual (cascade)
+                // Sesuaikan dengan relasi yang ada di aplikasi Anda
+                
+                // Contoh: Hapus data terkait user
+                // $user->posts()->delete();
+                // $user->comments()->delete();
+                // $user->files()->delete();
+                // $user->notifications()->delete();
+                
+                // Hapus user terakhir
+                $user->delete();
+            });
+
+            // Logout user setelah akun dihapus
+            Auth::logout();
+            
+            // Redirect ke halaman login dengan pesan
+            session()->flash('success', 'Akun Anda telah dihapus secara permanen.');
+            
+            // Redirect ke halaman login
+            return redirect('/login');
+            
+        } catch (\Exception $e) {
+            Notification::make()
+                ->title('Gagal menghapus akun')
+                ->body('Terjadi kesalahan: ' . $e->getMessage())
+                ->danger()
+                ->send();
+        }
     }
 
     public function getUserData(): array

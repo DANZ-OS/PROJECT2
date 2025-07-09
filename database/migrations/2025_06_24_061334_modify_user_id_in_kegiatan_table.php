@@ -1,23 +1,41 @@
-   <?php
+<?php
 
-   use Illuminate\Database\Migrations\Migration;
-   use Illuminate\Database\Schema\Blueprint;
-   use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-   class ModifyUserIdInKegiatanTable extends Migration
-   {
-       public function up()
-       {
-           Schema::table('kegiatan', function (Blueprint $table) {
-               $table->unsignedBigInteger('user_id')->nullable()->default(null)->change(); // Mengubah user_id menjadi nullable
-           });
-       }
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('kegiatan', function (Blueprint $table) {
+            // Drop foreign key lama jika ada
+            $table->dropForeign(['user_id']);
+            
+            // Tambahkan foreign key baru dengan cascade delete
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
+        });
+    }
 
-       public function down()
-       {
-           Schema::table('kegiatan', function (Blueprint $table) {
-               $table->unsignedBigInteger('user_id')->nullable(false)->change(); // Mengembalikan user_id menjadi tidak nullable
-           });
-       }
-   }
-   
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('kegiatan', function (Blueprint $table) {
+            // Drop foreign key dengan cascade
+            $table->dropForeign(['user_id']);
+            
+            // Kembalikan foreign key tanpa cascade
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users');
+        });
+    }
+};
