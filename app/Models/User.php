@@ -14,6 +14,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nim',
+        'jurusan',
+        'asal_kampus'
     ];
 
     protected $hidden = [
@@ -35,21 +38,6 @@ class User extends Authenticatable
     public function kegiatans()
     {
         return $this->hasMany(Kegiatan::class);
-    }
-
-    public function jadwals()
-    {
-        return $this->hasMany(Jadwal::class);
-    }
-
-    public function progres()
-    {
-        return $this->hasMany(Progres::class);
-    }
-
-    public function riwayatKegiatans()
-    {
-        return $this->hasMany(RiwayatKegiatan::class);
     }
 
     public function profilPengguna()
