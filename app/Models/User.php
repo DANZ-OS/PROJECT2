@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+// --- TAMBAHKAN USE STATEMENT INI ---
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+// ------------------------------------
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+// --- TAMBAHKAN "implements FilamentUser" DI SINI ---
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -29,6 +35,15 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    // --- TAMBAHKAN METHOD INI UNTUK FILAMENT ---
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Logika untuk menentukan siapa yang boleh masuk ke panel admin.
+        // Untuk saat ini, kita izinkan semua user yang terdaftar bisa masuk.
+        return true;
+    }
+    // -------------------------------------------
+
     // Relationships
     public function mataKuliahs()
     {
@@ -40,12 +55,6 @@ class User extends Authenticatable
         return $this->hasMany(Kegiatan::class);
     }
 
-    // --- HAPUS RELASI profilPenggunas() INI KARENA TABELNYA TIDAK ADA ---
-    // public function profilPenggunas()
-    // {
-    //     return $this->hasOne(ProfilPengguna::class);
-    // }
-
     protected static function boot()
     {
         parent::boot();
@@ -56,9 +65,6 @@ class User extends Authenticatable
 
             // Hapus semua Kegiatan milik user
             $user->kegiatans()->delete();
-
-            // --- HAPUS PANGGILAN INI KARENA RELASI DAN TABELNYA TIDAK ADA ---
-            // $user->profilPenggunas()->delete();
         });
     }
 }

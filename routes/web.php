@@ -1,24 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Filament\Resources\KegiatanResource;
-use App\Http\Controllers\KegiatanController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])->group(function () {
-         Route::get('/kegiatan', [KegiatanResource::class, 'index'])->name('kegiatan.index');
-         Route::get('/kegiatan/create', [KegiatanResource::class, 'create'])->name('kegiatan.create');
-         Route::post('/kegiatan', [KegiatanResource::class, 'store'])->name('kegiatan.store');
-     });
+Route::get('/dashboard', function () {
+    return redirect('/admin'); // <-- UBAH BAGIAN INI
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rute untuk menampilkan daftar kegiatan (sudah ada)
-Route::get('/kegiatan', [KegiatanController::class, 'index'])->name('kegiatan.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Rute untuk MENYIMPAN data dari form (WAJIB ADA)
-Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store');
-
-// Jangan lupa juga untuk memproteksi rute ini dengan middleware auth
-// Route::post('/kegiatan', [KegiatanController::class, 'store'])->name('kegiatan.store')->middleware('auth');
+require __DIR__.'/auth.php';
