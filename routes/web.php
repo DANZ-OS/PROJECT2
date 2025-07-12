@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return redirect('/admin'); // <-- UBAH BAGIAN INI
+    return redirect('/user'); // <-- UBAH BAGIAN INI
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
